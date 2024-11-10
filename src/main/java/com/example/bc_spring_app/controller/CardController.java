@@ -39,13 +39,15 @@ public class CardController {
     }
 
     @PutMapping("/{id}")
-    public Card updateCard(@PathVariable Long id, @RequestBody @Valid CardRequest cardRequest) {
-        return cardService.updateCard(id, cardRequest);
+    public CardResponse updateCard(@PathVariable Long id, @RequestBody @Valid CardRequest cardRequest) {
+        Card updatedCard = cardService.updateCard(id, cardRequest);
+        return cardService.cardToCardResponse(updatedCard);
     }
 
     @PutMapping("/is-active/{id}")
-    public Card updateIsActiveCardsActiveCard(@PathVariable Long id, @RequestBody @Valid CardRequest cardRequest) {
-        return cardService.updateIsActiveCard(id, cardRequest);
+    public CardResponse updateIsActiveCardsActiveCard(@PathVariable Long id, @RequestBody @Valid CardRequest cardRequest) {
+        Card updatedCard = cardService.updateCard(id, cardRequest);
+        return cardService.cardToCardResponse(updatedCard);
     }
 
     @DeleteMapping("/{id}")

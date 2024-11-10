@@ -81,6 +81,10 @@ public class CardService {
                 .orElseThrow(() -> new CardNotFoundException("Card with id " + id + " not found"));
     }
 
+    public CardResponse cardToCardResponse(Card card) {
+        return CardMapper.cardToCardResponse(card);
+    }
+
     public Card updateIsActiveCard(Long id, CardRequest cardRequest) {
         return cardRepository
                 .findById(id)

@@ -66,7 +66,7 @@ public class CustomerService {
     }
 
     public CustomerResponse customerToCustomerResponse(Customer customer) {
-        return customerMapper.customerToCustomerResponse(customer);
+        return CustomerMapper.customerToCustomerResponse(customer);
     }
 
     public Customer updateIsActiveCustomer(Long id, CustomerRequest customerRequest) {

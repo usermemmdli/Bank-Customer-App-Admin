@@ -1,7 +1,6 @@
 package com.example.bc_spring_app.dto.request;
 
 import lombok.Data;
-
 import java.sql.Timestamp;
 
 @Data

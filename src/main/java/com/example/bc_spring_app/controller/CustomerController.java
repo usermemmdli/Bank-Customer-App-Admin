@@ -18,9 +18,10 @@ import java.util.List;
 public class CustomerController {
     private final CustomerService customerService;
 
-    @GetMapping
-    public List<CustomerResponse> getAllCustomers() {
-        return customerService.getAllCustomers();
+    @GetMapping("/all")
+    public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
+        List<CustomerResponse> allCustomers = customerService.getAllCustomers();
+        return ResponseEntity.ok(allCustomers);
     }
 
     @GetMapping("/{id}")
@@ -32,27 +33,29 @@ public class CustomerController {
         return ResponseEntity.ok(customerResponse);
     }
 
-    @PostMapping
-    @ResponseStatus(value = HttpStatus.CREATED)
-    public CustomerResponse createCustomer(@RequestBody @Valid CustomerRequest customerRequest) {
-        return customerService.createCustomer(customerRequest);
+    @PostMapping("/new")
+    public ResponseEntity<CustomerResponse> createCustomer(@RequestBody @Valid CustomerRequest customerRequest) {
+        CustomerResponse customerResponse = customerService.createCustomer(customerRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerResponse);
     }
 
     @PutMapping("/{id}")
-    public CustomerResponse updateCustomer(@PathVariable Long id, @RequestBody @Valid CustomerRequest customerRequest) {
+    public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable Long id, @RequestBody @Valid CustomerRequest customerRequest) {
         Customer updatedCustomer = customerService.updateCustomer(id, customerRequest);
-        return customerService.customerToCustomerResponse(updatedCustomer);
+        CustomerResponse customerResponse = customerService.customerToCustomerResponse(updatedCustomer);
+        return ResponseEntity.ok(customerResponse);
     }
 
-    @PutMapping("/is-active/{id}")
-    public CustomerResponse updateIsActiveCustomer(@PathVariable Long id, @RequestBody @Valid CustomerRequest customerRequest) {
+    @PatchMapping("/is-active/{id}")
+    public ResponseEntity<CustomerResponse> updateIsActiveCustomer(@PathVariable Long id, @RequestBody @Valid CustomerRequest customerRequest) {
         Customer updatedCustomer = customerService.updateIsActiveCustomer(id, customerRequest);
-        return customerService.customerToCustomerResponse(updatedCustomer);
+        CustomerResponse customerResponse = customerService.customerToCustomerResponse(updatedCustomer);
+        return ResponseEntity.ok(customerResponse);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteCustomer(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
-        return "Customer removed";
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Mapper(componentModel = "spring")
 public class TransactionMapper {
-    public static TransactionResponse toTransactionResponse(Transaction transaction) {
+    public TransactionResponse toTransactionResponse(Transaction transaction) {
         return TransactionResponse.builder()
                 .id(transaction.getId())
                 .description(transaction.getDescription())

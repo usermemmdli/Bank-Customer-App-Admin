@@ -18,9 +18,10 @@ import java.util.List;
 public class CardController {
     private final CardService cardService;
 
-    @GetMapping
-    public List<CardResponse> getAllCards() {
-        return cardService.getAllCards();
+    @GetMapping("/all")
+    public ResponseEntity<List<CardResponse>> getAllCards() {
+        List<CardResponse> cardResponses = cardService.getAllCards();
+        return ResponseEntity.ok(cardResponses);
     }
 
     @GetMapping("/{id}")
@@ -32,27 +33,29 @@ public class CardController {
         return ResponseEntity.ok(card);
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public CardResponse createCard(@RequestBody @Valid CardRequest cardRequest) {
-        return cardService.createCard(cardRequest);
+    @PostMapping("/new")
+    public ResponseEntity<CardResponse> createCard(@RequestBody @Valid CardRequest cardRequest) {
+        CardResponse cardResponse = cardService.createCard(cardRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(cardResponse);
     }
 
     @PutMapping("/{id}")
-    public CardResponse updateCard(@PathVariable Long id, @RequestBody @Valid CardRequest cardRequest) {
+    public ResponseEntity<CardResponse> updateCard(@PathVariable Long id, @RequestBody @Valid CardRequest cardRequest) {
         Card updatedCard = cardService.updateCard(id, cardRequest);
-        return cardService.cardToCardResponse(updatedCard);
+        CardResponse cardResponse = cardService.cardToCardResponse(updatedCard);
+        return ResponseEntity.ok(cardResponse);
     }
 
-    @PutMapping("/is-active/{id}")
-    public CardResponse updateIsActiveCardsActiveCard(@PathVariable Long id, @RequestBody @Valid CardRequest cardRequest) {
+    @PatchMapping("/is-active/{id}")
+    public ResponseEntity<CardResponse> updateIsActiveCardsActiveCard(@PathVariable Long id, @RequestBody @Valid CardRequest cardRequest) {
         Card updatedCard = cardService.updateCard(id, cardRequest);
-        return cardService.cardToCardResponse(updatedCard);
+        CardResponse cardResponse = cardService.cardToCardResponse(updatedCard);
+        return ResponseEntity.ok(cardResponse);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteCard(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteCard(@PathVariable Long id) {
         cardService.deleteCard(id);
-        return "Card removed";
     }
 }

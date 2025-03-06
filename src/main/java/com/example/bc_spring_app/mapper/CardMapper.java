@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Component
 @Mapper(componentModel = "spring")
 public class CardMapper {
-    public static CardResponse cardToCardResponse(Card card) {
+    public CardResponse cardToCardResponse(Card card) {
         return CardResponse.builder()
                 .id(card.getId())
                 .name(card.getName())
@@ -25,11 +25,11 @@ public class CardMapper {
                 .isActive(card.getIsActive())
                 .expireDate(card.getExpireDate())
                 .createdAt(Timestamp.from(Instant.now()))
-                .updatedAt(Timestamp.from(Instant.now()))
+                .updatedAt(card.getUpdatedAt())
                 .build();
     }
 
-    public static Card toEntity(CardRequest cardRequest) {
+    public Card toEntity(CardRequest cardRequest) {
         return Card
                 .builder()
                 .name(cardRequest.getName())

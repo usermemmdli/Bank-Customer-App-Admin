@@ -19,13 +19,13 @@ public class TransactionService {
     public List<TransactionResponse> getAllTransactions() {
         return transactionRepository.findAll()
                 .stream()
-                .map(TransactionMapper::toTransactionResponse)
+                .map(transactionMapper::toTransactionResponse)
                 .collect(Collectors.toList());
     }
 
     public TransactionResponse getTransactionById(Long id) {
         return transactionRepository.findById(id)
-                .map(TransactionMapper::toTransactionResponse)
+                .map(transactionMapper::toTransactionResponse)
                 .orElseThrow(() -> new TransactionNotFoundException("Transaction with id" + id + "not found"));
     }
 }

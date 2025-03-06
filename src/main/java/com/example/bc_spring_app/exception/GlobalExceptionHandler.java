@@ -15,15 +15,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CustomerNotFoundException.class)
     public ResponseEntity<?> handleCustomerNotFoundException(CustomerNotFoundException ex) {
         Map<String, Object> body = new HashMap<>();
-        body.put("error", "Resource not found");
+        body.put("error", "Customer not found");
         body.put("message", ex.getMessage());
         body.put("timestamp", LocalDateTime.now());
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);    }
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(CardNotFoundException.class)
     public ResponseEntity<?> handleCardNotFoundException(CardNotFoundException ex) {
         Map<String, Object> body = new HashMap<>();
-        body.put("error", "Resource not found");
+        body.put("error", "Card not found");
         body.put("message", ex.getMessage());
         body.put("timestamp", LocalDateTime.now());
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
@@ -32,15 +33,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(TransactionNotFoundException.class)
     public ResponseEntity<?> handleTransactionNotFoundException(TransactionNotFoundException ex) {
         Map<String, Object> body = new HashMap<>();
-        body.put("error", "Resource not found");
+        body.put("error", "Transaction not found");
         body.put("message", ex.getMessage());
         body.put("timestamp", LocalDateTime.now());
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);    }
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(CardRequestInvalidError.class)
     public ResponseEntity<?> handleCardRequestInvalidError(CardRequestInvalidError ex) {
         Map<String, Object> body = new HashMap<>();
-        body.put("error", "Request invalid");
+        body.put("error", "Card request invalid");
         body.put("message", ex.getMessage());
         body.put("timestamp", LocalDateTime.now());
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
@@ -49,11 +51,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CustomerRequestInvalidError.class)
     public ResponseEntity<?> handleCustomerRequestInvalidError(CustomerRequestInvalidError ex) {
         Map<String, Object> body = new HashMap<>();
-        body.put("error", "Request invalid");
+        body.put("error", "Customer request invalid");
         body.put("message", ex.getMessage());
         body.put("timestamp", LocalDateTime.now());
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 }
-
-

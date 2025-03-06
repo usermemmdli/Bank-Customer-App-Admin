@@ -25,13 +25,13 @@ public class CustomerService {
         return customerRepository
                 .findAll()
                 .stream()
-                .map(CustomerMapper::customerToCustomerResponse)
+                .map(customerMapper::customerToCustomerResponse)
                 .collect(Collectors.toList());
     }
 
     public CustomerResponse getCustomerById(Long id) {
         return customerRepository.findById(id)
-                .map(CustomerMapper::customerToCustomerResponse)
+                .map(customerMapper::customerToCustomerResponse)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer with id " + id + " not found"));
     }
 
@@ -41,12 +41,12 @@ public class CustomerService {
                 || customerRequest.getEmail() == null) {
             throw new CustomerRequestInvalidError("Customer name or surname or email is null");
         }
-        Customer customer = CustomerMapper.toEntity(customerRequest);
+        Customer customer = customerMapper.toEntity(customerRequest);
         Customer savedCustomer = customerRepository.save(customer);
-        return CustomerMapper.customerToCustomerResponse(savedCustomer);
+        return customerMapper.customerToCustomerResponse(savedCustomer);
     }
 
-    public Customer updateCustomer(Long id, CustomerRequest customerRequest) {
+    public CustomerResponse updateCustomer(Long id, CustomerRequest customerRequest) {
         return customerRepository
                 .findById(id)
                 .map(customer -> {
@@ -60,21 +60,25 @@ public class CustomerService {
                         customer.setEmail(customerRequest.getEmail());
                     }
                     customer.setUpdatedAt(Timestamp.from(Instant.now()));
-                    return customerRepository.save(customer);
+                    customerRepository.save(customer);
+
+                    return customerMapper.customerToCustomerResponse(customer);
                 })
                 .orElseThrow(() -> new CustomerNotFoundException("Customer with id " + id + " not found"));
     }
 
     public CustomerResponse customerToCustomerResponse(Customer customer) {
-        return CustomerMapper.customerToCustomerResponse(customer);
+        return customerMapper.customerToCustomerResponse(customer);
     }
 
-    public Customer updateIsActiveCustomer(Long id, CustomerRequest customerRequest) {
+    public CustomerResponse updateIsActiveCustomer(Long id, CustomerRequest customerRequest) {
         return customerRepository.findById(id)
                 .map(customer -> {
                     customer.setIsActive(customerRequest.getIsActive());
                     customer.setUpdatedAt(Timestamp.from(Instant.now()));
-                    return customerRepository.save(customer);
+                    customerRepository.save(customer);
+
+                    return customerMapper.customerToCustomerResponse(customer);
                 })
                 .orElseThrow(() -> new CustomerNotFoundException("Customer with id " + id + " not found"));
     }

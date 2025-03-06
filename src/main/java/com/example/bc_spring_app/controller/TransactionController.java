@@ -18,9 +18,10 @@ import java.util.List;
 public class TransactionController {
     private final TransactionService transactionService;
 
-    @GetMapping
-    public List<TransactionResponse> getAllTransactions() {
-        return transactionService.getAllTransactions();
+    @GetMapping("/all")
+    public ResponseEntity<List<TransactionResponse>> getAllTransactions() {
+        List<TransactionResponse> allTransactions = transactionService.getAllTransactions();
+        return ResponseEntity.ok(allTransactions);
     }
 
     @GetMapping("/{id}")

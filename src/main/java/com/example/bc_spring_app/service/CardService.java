@@ -27,14 +27,14 @@ public class CardService {
         return cardRepository
                 .findAll()
                 .stream()
-                .map(CardMapper::cardToCardResponse)
+                .map(cardMapper::cardToCardResponse)
                 .collect(Collectors.toList());
     }
 
     public CardResponse getCardById(Long id) {
         return cardRepository
                 .findById(id)
-                .map(CardMapper::cardToCardResponse)
+                .map(cardMapper::cardToCardResponse)
                 .orElseThrow(() -> new CardNotFoundException("Card with id " + id + " not found"));
     }
 
@@ -48,12 +48,12 @@ public class CardService {
         ) {
             throw new CardRequestInvalidError("Card request invalid");
         }
-        Card card = CardMapper.toEntity(cardRequest);
+        Card card = cardMapper.toEntity(cardRequest);
         Card savedCard = cardRepository.save(card);
-        return CardMapper.cardToCardResponse(savedCard);
+        return cardMapper.cardToCardResponse(savedCard);
     }
 
-    public Card updateCard(Long id, CardRequest cardRequest) {
+    public CardResponse updateCard(Long id, CardRequest cardRequest) {
         return cardRepository
                 .findById(id)
                 .map(card -> {
@@ -76,22 +76,26 @@ public class CardService {
                         card.setExpireDate(cardRequest.getExpireDate());
                     }
                     card.setUpdatedAt(Timestamp.from(Instant.now()));
-                    return cardRepository.save(card);
+                    cardRepository.save(card);
+
+                    return cardMapper.cardToCardResponse(card);
                 })
                 .orElseThrow(() -> new CardNotFoundException("Card with id " + id + " not found"));
     }
 
     public CardResponse cardToCardResponse(Card card) {
-        return CardMapper.cardToCardResponse(card);
+        return cardMapper.cardToCardResponse(card);
     }
 
-    public Card updateIsActiveCard(Long id, CardRequest cardRequest) {
+    public CardResponse updateIsActiveCard(Long id, CardRequest cardRequest) {
         return cardRepository
                 .findById(id)
                 .map(card -> {
                     card.setIsActive(cardRequest.getIsActive());
                     card.setUpdatedAt(Timestamp.from(Instant.now()));
-                    return cardRepository.save(card);
+                    cardRepository.save(card);
+
+                    return cardMapper.cardToCardResponse(card);
                 })
                 .orElseThrow(() -> new CardNotFoundException("Card with id " + id + " not found"));
     }

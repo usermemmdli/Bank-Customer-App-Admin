@@ -63,7 +63,7 @@ class CardControllerTest {
 
     @Test
     void getCardByIdTest() throws Exception {
-        final Long id = 100L;
+        final Long  id = 100L;
         final Customer customerId = Customer.builder().id(1L).build();
 
         CardResponse cardResponse = CardResponse.builder()

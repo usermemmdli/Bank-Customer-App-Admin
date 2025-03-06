@@ -11,7 +11,7 @@ import java.time.Instant;
 @Component
 @Mapper(componentModel = "spring")
 public class CustomerMapper {
-    public static CustomerResponse customerToCustomerResponse(Customer customer){
+    public CustomerResponse customerToCustomerResponse(Customer customer){
         return CustomerResponse.builder()
                 .id(customer.getId())
                 .name(customer.getName())
@@ -23,7 +23,7 @@ public class CustomerMapper {
                 .build();
     }
 
-    public static Customer toEntity(CustomerRequest customerRequest){
+    public Customer toEntity(CustomerRequest customerRequest){
         return Customer
                 .builder()
                 .name(customerRequest.getName())
